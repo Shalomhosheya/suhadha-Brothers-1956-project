@@ -1,31 +1,25 @@
 import React, { useState } from 'react';
-import { Menu, X, ShoppingCart, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
-// import styles from './home.module.css';
-const Home = ()=>{
-     const [activeSection, setActiveSection] = useState('home');
-      const [activeCategory, setActiveCategory] = useState('bathroom');
-      const [menuOpen, setMenuOpen] = useState(false);
-    
-      const categories = [
-        { id: 'bathroom', label: 'Bathroom' },
-        { id: 'bedroom', label: 'Bedroom' },
-        { id: 'kids', label: 'Kids' },
-        { id: 'accent', label: 'Accent' },
-        { id: 'entry', label: 'Entry' },
-        { id: 'livingroom', label: 'Living Room' },
-        { id: 'dining', label: 'Dining' },
-        { id: 'kitchen', label: 'Kitchen' },
-        { id: 'outdoor', label: 'Outdoor' },
-        { id: 'office', label: 'Office' },
-        { id: 'storage', label: 'Storage' },
-        { id: 'homedecoration', label: 'Home Decoration' }
-      ];
-    
-    
-    return(
+import { ShoppingCart, Mail, Phone, MapPin } from 'lucide-react';
+import logo  from '../images/logo.png';
+
+const Home = ({ onNavigate }) => {
+  const categories = [
+    { id: 'bathroom', label: 'Bathroom' },
+    { id: 'bedroom', label: 'Bedroom' },
+    { id: 'kids', label: 'Kids' },
+    { id: 'accent', label: 'Accent' },
+    { id: 'entry', label: 'Entry' },
+    { id: 'livingroom', label: 'Living Room' },
+    { id: 'dining', label: 'Dining' },
+    { id: 'kitchen', label: 'Kitchen' },
+    { id: 'outdoor', label: 'Outdoor' },
+    { id: 'office', label: 'Office' },
+    { id: 'storage', label: 'Storage' },
+    { id: 'homedecoration', label: 'Home Decoration' }
+  ];
+
+  return (
     <div style={{ minHeight: '100vh' }}>
-      {/* <style>{styles}</style> */}
-      
       {/* Hero Section */}
       <div style={{
         position: 'relative',
@@ -81,7 +75,7 @@ const Home = ()=>{
             marginBottom: '32px'
           }}>Premium Furniture for Every Room</p>
           <button 
-            onClick={() => setActiveSection('list')}
+            onClick={onNavigate}
             style={{
               background: '#06b6d4',
               color: 'white',
@@ -131,10 +125,7 @@ const Home = ()=>{
           {categories.slice(0, 8).map(cat => (
             <div 
               key={cat.id}
-              onClick={() => {
-                setActiveSection('list');
-                setActiveCategory(cat.id);
-              }}
+              onClick={onNavigate}
               style={{
                 cursor: 'pointer',
                 background: 'white',
@@ -284,6 +275,7 @@ const Home = ()=>{
         </div>
       </div>
     </div>
-    );
+  );
 };
+
 export default Home;
