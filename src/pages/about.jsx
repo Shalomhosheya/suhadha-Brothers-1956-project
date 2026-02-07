@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, ShoppingCart, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import shop2 from '../images/shop2.jpg';
 
 const AboutSection = () => (
     <div style={{
@@ -40,7 +41,7 @@ const AboutSection = () => (
                 marginBottom: '16px',
                 lineHeight: '1.7'
               }}>
-                For over 20 years, we've been dedicated to bringing exceptional furniture to homes across the country. 
+                For over 70 years, we've been dedicated to bringing exceptional furniture to homes across the country. 
                 Our passion for quality craftsmanship and timeless design has made us a trusted name in home furnishing.
               </p>
               <p style={{
@@ -52,8 +53,8 @@ const AboutSection = () => (
               </p>
             </div>
             <div style={{
-              height: '384px',
-              background: 'linear-gradient(135deg, #1e3a8a 0%, #172554 100%)',
+              height: '484px',
+              background: `url(${shop2}) no-repeat center center`,
               borderRadius: '12px'
             }}></div>
           </div>
@@ -75,7 +76,7 @@ const AboutSection = () => (
               fontSize: '36px',
               fontWeight: 'bold',
               marginBottom: '8px'
-            }}>20+</h4>
+            }}>70+</h4>
             <p style={{ color: '#67e8f9' }}>Years of Excellence</p>
           </div>
           <div style={{
