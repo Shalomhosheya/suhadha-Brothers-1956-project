@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingCart, Mail, Phone, MapPin, Search, X, TrendingUp } from 'lucide-react';
-import logo  from '../images/logo.png';
-import main  from '../images/main_image.jpg'; // make this image shown when scrolling down as a
+import logo from '../images/logo.png';
+import main from '../images/main_image.jpg';
 
 const Home = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const searchRef = useRef(null);
+  const imageRef = useRef(null);
 
   const categories = [
     { id: 'bathroom', label: 'Bathroom', keywords: ['bath', 'shower', 'sink', 'vanity', 'mirror'] },
@@ -27,6 +29,22 @@ const Home = ({ onNavigate }) => {
   const popularSearches = [
     'Sofa', 'Bed', 'Dining Table', 'Office Chair', 'Coffee Table', 'Dresser'
   ];
+
+  // Scroll animation effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (imageRef.current) {
+        const rect = imageRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const scrollPercentage = Math.max(0, Math.min(1, (windowHeight - rect.top) / windowHeight));
+        setScrollProgress(scrollPercentage);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Filter categories based on search
   const filteredCategories = categories.filter(cat => 
@@ -375,6 +393,162 @@ const Home = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* Animated Showcase Section with Main Image */}
+      <div 
+        ref={imageRef}
+        style={{
+          padding: '100px 20px',
+          background: 'linear-gradient(to bottom, #f8fafc, #e0f2fe)',
+          overflow: 'hidden',
+          position: 'relative'
+        }}
+      >
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr',
+            gap: '60px',
+            alignItems: 'center'
+          }}>
+            {/* Text Content - Slides in from left */}
+            <div style={{
+              opacity: scrollProgress,
+              transform: `translateX(${-50 + scrollProgress * 50}px)`,
+              transition: 'all 0.3s ease-out'
+            }}>
+              <h2 style={{
+                fontSize: '48px',
+                fontWeight: 'bold',
+                color: '#172554',
+                marginBottom: '24px',
+                lineHeight: '1.2'
+              }}>
+                Transform Your Living Space
+              </h2>
+              <p style={{
+                fontSize: '20px',
+                color: '#475569',
+                marginBottom: '32px',
+                lineHeight: '1.6'
+              }}>
+                Discover our curated collection of premium furniture designed to bring comfort, style, and elegance to every corner of your home.
+              </p>
+              <button
+                onClick={onNavigate}
+                style={{
+                  background: 'linear-gradient(135deg, #1e3a8a 0%, #172554 100%)',
+                  color: 'white',
+                  padding: '16px 40px',
+                  borderRadius: '12px',
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  boxShadow: '0 10px 25px rgba(30, 58, 138, 0.3)'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 15px 35px rgba(30, 58, 138, 0.4)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 10px 25px rgba(30, 58, 138, 0.3)';
+                }}
+              >
+                Explore Collection
+              </button>
+            </div>
+
+            {/* Main Image - Slides in from right with parallax effect */}
+            <div style={{
+              opacity: scrollProgress,
+              transform: `translateX(${50 - scrollProgress * 50}px) scale(${0.9 + scrollProgress * 0.1})`,
+              transition: 'all 0.3s ease-out',
+              position: 'relative'
+            }}>
+              <div style={{
+                position: 'relative',
+                borderRadius: '24px',
+                overflow: 'hidden',
+                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
+              }}>
+                <img 
+                  src={main}
+                  alt="Premium Furniture Showcase"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                    display: 'block',
+                    transform: `scale(${1 + scrollProgress * 0.05})`,
+                    transition: 'transform 0.3s ease-out'
+                  }}
+                />
+                {/* Overlay gradient */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '40%',
+                  background: 'linear-gradient(to top, rgba(23, 37, 84, 0.7), transparent)',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  padding: '32px'
+                }}>
+                  <div>
+                    <h3 style={{
+                      color: 'white',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      marginBottom: '8px',
+                      textShadow: '0 2px 10px rgba(0,0,0,0.3)'
+                    }}>
+                      Luxury & Comfort
+                    </h3>
+                    <p style={{
+                      color: '#bfdbfe',
+                      fontSize: '16px',
+                      textShadow: '0 2px 10px rgba(0,0,0,0.3)'
+                    }}>
+                      Crafted with precision and care
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative floating elements */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '120px',
+                height: '120px',
+                background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                borderRadius: '50%',
+                opacity: scrollProgress * 0.6,
+                filter: 'blur(40px)',
+                animation: 'float 4s ease-in-out infinite',
+                zIndex: -1
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '-30px',
+                left: '-30px',
+                width: '150px',
+                height: '150px',
+                background: 'linear-gradient(135deg, #1e3a8a, #172554)',
+                borderRadius: '50%',
+                opacity: scrollProgress * 0.5,
+                filter: 'blur(50px)',
+                animation: 'float 6s ease-in-out infinite reverse',
+                zIndex: -1
+              }}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Featured Categories */}
       <div style={{
         padding: '80px 20px',
@@ -395,7 +569,7 @@ const Home = ({ onNavigate }) => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '32px'
         }}>
-          {categories.slice(0, 8).map(cat => (
+          {categories.slice(0, 8).map((cat, index) => (
             <div 
               key={cat.id}
               onClick={onNavigate}
@@ -405,7 +579,9 @@ const Home = ({ onNavigate }) => {
                 borderRadius: '12px',
                 overflow: 'hidden',
                 boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
-                transition: 'all 0.3s'
+                transition: 'all 0.3s',
+                opacity: 0,
+                animation: `fadeInUp 0.6s ease-out ${index * 0.1}s forwards`
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'translateY(-8px)';
@@ -563,6 +739,17 @@ const Home = ({ onNavigate }) => {
           from {
             opacity: 0;
             transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
