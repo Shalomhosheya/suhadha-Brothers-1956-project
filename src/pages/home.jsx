@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingCart, Mail, Phone, MapPin, Search, X, TrendingUp } from 'lucide-react';
 import logo  from '../images/logo.png';
+import main  from '../images/main_image.jpg'; // make this image shown when scrolling down as a
 
 const Home = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('');
